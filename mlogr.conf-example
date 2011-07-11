@@ -1,0 +1,46 @@
+# mlogr configuration is in YAML format.
+
+# Tables which are used for input are defined with in the tables list.
+#
+# Individual table format (i.e. log format) are setup per table in the
+# tables list
+tables:
+- sommar
+- information
+
+# Define the sommar table.
+# Every column is defined with name and type.
+# Valid types are: integer, real, and text
+sommar:
+  vader: text
+  oljeniva: integer
+  returtemperatur: real
+  utetemperatur: real
+  varmvatten: integer
+  kallvatten: integer
+  solvarme_R1: integer
+  solvarme_R2: integer
+  oljepanna: boolean
+  signatur: text
+
+# Define the vinter table.
+vinter:
+  vader: text
+  oljeniva: integer
+  returtemperatur: integer
+  utetemperatur: real
+  varmvatten: integer
+  kallvatten: integer
+  pellets: integer
+  panntemperatur: integer
+  avgastemperatur: integer
+  o2_halt: integer
+  undertryck: integer
+  varvtal_avgasflakt: integer
+  effekt: integer
+  signatur: text
+
+# Define the problem table
+information:
+  information: text
+  signatur: text

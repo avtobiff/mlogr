@@ -1,0 +1,34 @@
+mlogr
+-----
+A simple application aiming to aid humans doing repetative data collection.
+
+mlogr features simple configuration for setting up (line-based) log
+structure. Using a simple text based user interface looping for input.
+Once new log data is entered this is committed to a SQLite database. After
+data write mlogr runs a post hook, see hooks directory for example
+post-hook that commits mlogr.db to ``mlogr-data'' branch in the mlogr git
+repo.
+
+The software mlogr is written in Python, it uses SQLite3 as data backend,
+YAML for configuration.
+
+
+DATA
+----
+The data mlogr stores are put in sqlite tables. Every logged row is stamped
+with id and time. The rest of the data is given by the user. The data
+format is defined in the configuration file (default is mlogr.conf). See
+example for detailed explanation.
+
+
+LICENCE AND SOURCE CODE
+-----------------------
+mlogr is free software and is released under the GNU General Public License
+version 3 (or later at your option).
+
+Follow application development at
+
+    http://gitorious.org/avtobiff/mlogr/
+
+
+ -- Per Andersson <avtobiff@gmail.com>  Mon, 11 Jul 2011 16:43:45 +0200

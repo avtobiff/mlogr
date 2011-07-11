@@ -1,0 +1,66 @@
+#
+# Copyright (c) 2011 Per Andersson
+#
+# This file is part of mlogr.
+#
+# mlogr is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# mlogr is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with mlogr.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+#!/usr/bin/env python
+
+import datetime, os, shutil, subprocess, sys
+
+gitbranch = "mlogr-data"
+srcfile = "mlogr.db"
+dstfile = "mlogr-data.db"
+
+timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+msg = "mlogr database %s" % timestamp
+
+createdatabranchcmd = ["git", "checkout", "-b", gitbranch]
+databranchcmd = ["git", "checkout", gitbranch]
+commitcmd = ["git", "commit", "-m", msg]
+addfilecmd = ["git", "add", dstfile]
+masterbranchcmd = ["git", "checkout", "master"]
+
+error = False
+if subprocess.call(createdatabranchcmd) is not 0:
+    print >>sys.stderr, "Error calling " + str(databranchcmd)
+    print >>sys.stderr, "Does branch '%s' already exist?" % gitbranch
+
+if subprocess.call(databranchcmd) is 0:
+    print "Yes, branch '%s' already exists." % gitbranch
+else:
+    print >>sys.stderr, "Error calling " + str(databranchcmd)
+
+# copy original database file and track it
+shutil.copy2(srcfile, dstfile)
+
+if subprocess.call(addfilecmd) is not 0:
+    print >>sys.stderr, "Error calling " + str(commitcmd)
+    error = True
+
+if subprocess.call(commitcmd) is not 0:
+    print >>sys.stderr, "Error calling " + str(commitcmd)
+    error = True
+
+if subprocess.call(masterbranchcmd) is not 0:
+    print >>sys.stderr, "Error calling " + str(masterbranchcmd)
+    error = True
+
+if not error:
+    print "Committed changes in %s to git branch '%s'." % (dstfile, gitbranch)
+else:
+    print "Error while trying to commit changes in %s to git branch '%s'." \
+          % (dstfile, gitbranch)
