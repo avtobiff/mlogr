@@ -390,6 +390,10 @@ class mlogr(object):
         """
         Run post hooks.
         """
+        # bail if no post-hook exists
+        if not os.path.isfile(os.getwcd() + "/hooks/post-hook.py"):
+            return None
+
         try:
             print "Running post-hook..."
             __import__("hooks.post-hook")
