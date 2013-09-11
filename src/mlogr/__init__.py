@@ -391,7 +391,7 @@ class mlogr(object):
         Run post hooks.
         """
         # bail if no post-hook exists
-        if not os.path.isfile(os.getwcd() + "/hooks/post-hook.py"):
+        if not os.path.isfile(os.getcwd() + "/hooks/post-hook.py"):
             return None
 
         try:
